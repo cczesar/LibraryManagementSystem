@@ -57,3 +57,22 @@ Driver Driver::fromCSV(const std::string& line){
         fields[5]
     );
 }
+
+bool Driver::operator==(const Driver& other) const {
+    return number == other.number;
+}
+
+bool Driver::operator<(const Driver& other) const{
+    return wins > others.wins;
+}
+
+std::ostream& operator<<(std::ostream& os, const Driver& d){
+     os << std::left
+        << std::setw(25) << d.name
+        << " #" << std:setw(4) << d.number
+        << std::setw(14) << d.nationality
+        << std::setw(18) << d.setTeamName
+        <<"W: " << std::setw(4) << d.wins
+        <<"T: " << d.championships;
+        return os;
+} 
