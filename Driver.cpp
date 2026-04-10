@@ -3,6 +3,7 @@
 #include <iomanip>
 #include <sstream>
 #include <stdexcept>
+#include <vector>
 
 
 Driver::Driver()
@@ -18,12 +19,12 @@ void Driver::display() const{
     std::cout <<"|-----------------------------------|\n";
     std::cout <<"| Driver Profile                    |\n";
     std::cout <<"|-----------------------------------|\n";
-    std::cout <<"| Name        : " << std::left << std::setw(23)<< name          << "|\n"
-    std::cout <<"| Number      : " << std::left << std::setw(23)<< number        << "|\n"
-    std::cout <<"| Nationality : " << std::left << std::setw(23)<< nationality   << "|\n"
-    std::cout <<"| Team        : " << std::left << std::setw(23)<< team          << "|\n"
-    std::cout <<"| Win         : " << std::left << std::setw(23)<< wins          << "|\n"
-    std::cout <<"| Titles WDC  : " << std::left << std::setw(23)<< championships << "|\n"
+    std::cout <<"| Name        : " << std::left << std::setw(23)<< name          << "|\n";
+    std::cout <<"| Number      : " << std::left << std::setw(23)<< number        << "|\n";
+    std::cout <<"| Nationality : " << std::left << std::setw(23)<< nationality   << "|\n";
+    std::cout <<"| Team        : " << std::left << std::setw(23)<< team          << "|\n";
+    std::cout <<"| Wins        : " << std::left << std::setw(23)<< wins          << "|\n";
+    std::cout <<"| Titles WDC  : " << std::left << std::setw(23)<< championships << "|\n";
     std::cout <<"|-----------------------------------|\n";
 
 }
@@ -39,14 +40,16 @@ std::string Driver::toCSV() const{
 
 Driver Driver::fromCSV(const std::string& line){
     std::stringstream ss(line);
-    std::string toke;
+    std::string token;
     std::vector<std::string> fields;
 
-    while (std::getline(ss, token, ','))
-    fields.push_back(token);
+    while (std::getline(ss, token, ',')) {
+        fields.push_back(token);
+    }
 
-    if(fields.size() != 6)
-    throw std::invalid_argument("Invalid CSV line for driver: " + line);
+    if(fields.size() != 6) {
+        throw std::invalid_argument("Invalid CSV line for driver: " + line);
+    }
 
     return Driver(
         fields[0],
@@ -63,16 +66,18 @@ bool Driver::operator==(const Driver& other) const {
 }
 
 bool Driver::operator<(const Driver& other) const{
-    return wins > others.wins;
+    // sort by wins descending (more wins = "smaller" for std::sort)
+    if (wins != other.wins) return wins > other.wins;
+    return number < other.number;
 }
 
 std::ostream& operator<<(std::ostream& os, const Driver& d){
      os << std::left
         << std::setw(25) << d.name
-        << " #" << std:setw(4) << d.number
+        << " #" << std::setw(4) << d.number
         << std::setw(14) << d.nationality
-        << std::setw(18) << d.setTeamName
-        <<"W: " << std::setw(4) << d.wins
-        <<"T: " << d.championships;
-        return os;
+        << std::setw(18) << d.team
+        << "W: " << std::setw(4) << d.wins
+        << "T: " << d.championships;
+     return os;
 } 

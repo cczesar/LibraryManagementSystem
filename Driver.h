@@ -1,5 +1,6 @@
+#pragma once
 #include <string>
-#include <iostran>
+#include <iosfwd>
 
 class Driver {
     private:
@@ -8,25 +9,19 @@ class Driver {
     std::string nationality;
     int championships;
     int wins;
-    std:: string team;
+    std::string team;
 
     public:
     Driver();
     Driver (std::string name, int number, std::string nationality, 
             int championships, int wins, std::string team);
 
-            std::string getName()
-            const { return name;}
-            int getNumber()
-            const { return number;}
-            std::string getNationality()
-            const { return nationality;}
-            int getChampionships()
-            const { return championships;}
-            int getWins()
-            const { return wins;}
-            std::string getTeam()
-            const { return team;}
+            std::string getName() const { return name; }
+            int getNumber() const { return number; }
+            std::string getNationality() const { return nationality; }
+            int getChampionships() const { return championships; }
+            int getWins() const { return wins; }
+            std::string getTeam() const { return team; }
 
 
             void setName (const std::string& n)
@@ -52,7 +47,7 @@ class Driver {
             std::string toCSV() const;
             static Driver fromCSV(const std::string& line);
 
-            bool operator == (const Drive& other) const;
+            bool operator==(const Driver& other) const;
             bool operator<(const Driver& other) const;
             friend std::ostream& operator<<(std::ostream& os, const Driver& d);
 };
