@@ -16,6 +16,11 @@ class Team {
     Team (std::string name, std::string country, 
             int wcc, int totalWins);
 
+            std::string getName() const { return name; }
+            std::string getCountry() const { return country; }
+            int getWcc() const { return wcc; }
+            int getTotalWins() const { return totalWins; }
+
             void setName(const std::string& n) {
                 name = n;
             }
@@ -41,4 +46,4 @@ class Team {
             bool operator==(const Team& other) const;
             bool operator<(const Team& other) const;
             friend std::ostream& operator<<(std::ostream& os, const Team& t);
-    };
+};

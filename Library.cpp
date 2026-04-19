@@ -126,7 +126,7 @@ void Library::displayDriverByTeam(const std::string& teamName) const{
     for (const auto& d : drivers) {
         if (d.getTeamName() == teamName) {
             std::cout << d << "\n":
-            found = true;;
+            found = true;
         }
     }
     if (!found)

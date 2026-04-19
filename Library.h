@@ -6,25 +6,30 @@
 #include "Team.h"
 
 class Library {
-    private:
+private:
     std::vector<Driver> drivers;
     std::vector<Team> teams;
     std::string driversFile;
     std::string teamsFile;
 
 public:
-    library(std::string driversFile, std::string teamsFile);
+    Library(std::string driversFile, std::string teamsFile);
 
     void loadFromFiles();
     void saveToFiles() const;
 
-
     void addDriver(const Driver& driver);
     void removeDriver(const std::string& name);
-    Team* findTeam(const std::string& name);
-    void displayAllTeams();
+    Driver* findDriver(const std::string& name);
 
-    void displayDriverByTeam(const std::string& teamName) const;
-    void sortDriverByWins();
-    void sortTeamByWins();
+    void addTeam(const Team& team);
+    void removeTeam(const std::string& name);
+    Team* findTeam(const std::string& name);
+
+    void displayAllDrivers() const;
+    void displayAllTeams() const;
+    void displayDriversByTeam(const std::string& teamName) const;
+
+    void sortDriversByWins();
+    void sortTeamsByWins();
 };
