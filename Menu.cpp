@@ -65,3 +65,163 @@ void Menu::handleAddDriver(){
     waitForEnter;
 
 }
+
+void Menu::handleRemoveDriver(){
+    clearScreen();
+    std::cout << "\n=== REMOVE DRIVER ===\n\n";
+
+    std::string name;
+    std::cin.ignore();
+    std::cout << "Driver name: ";
+    std::getline(std::cin, name);
+
+    lib.removeDriver(name);
+    waitForEnter();
+}
+
+void Menu::handleFindDriver(){
+    clearScreen();
+    std::cout << "\n=== FIND DRIVER ===\n\n";
+
+    std::string name;
+    std::cin.ignore();
+    std::cout << "Driver name: ";
+    std::getline(std::cin, name);
+
+    lib.removeDriver(name);
+    waitForEnter();
+}
+
+void Menu::handleFindDriver(){
+    clearScreen();
+    std::cout <<"\n=== FIND DRIVER ===\n\n";
+    std::string name;
+    std::cin.ignore();
+    std::cout << "Driver name: ";
+    std::getline(std::cin, name);
+
+    Driver* d = lib.findDriver(name);
+    if (d != nullptr)
+        d->display();
+    else
+        std::cout << "Driver " << name << " not found\n";
+
+        waitForEnter();
+}
+
+void Menu::handleAddTeam(){
+    clearScreen();
+    std::cout <<"\n=== ADD TEAM ===\n\n";
+
+    std::string name;
+    std::cin.ignore();
+    std::cout << "Team name: ";
+    std::getline(std::cin, name);
+
+    lib.removeTeam(name);
+    waitForEnter();
+}
+
+void Menu::handleFindTeam(){
+    clearScreen();
+    std::cout << "\n=== FIND TEAM ===\n\n";
+
+    std::string name;
+    std::cin.ignore();
+    std::cout << "Team name: ";
+    std::getline(std::cin, name);
+
+    Team* t = lib.findTeam(name);
+    if (t != nullptr)
+        t->display();
+    else
+        std::cout << "Team " << name << " Not found\n";
+    waitForEnter();
+}
+
+void Menu::run(){
+    int option;
+
+    do{
+        showMainMenu();
+        std::cin >> option;
+
+        switch (option) {
+            case 1:
+            clearScreen();
+            lib.displayAllDrivers();
+            waitForEnter();
+            break;
+            case 2:
+            handleAddDriver();
+            break;
+            case 3:
+            handleRemoveDriver();
+            break;
+            case 4:
+            handleFindDriver();
+            break;
+            case 5:{
+            clearScreen();
+            std::string teamName;
+            std::cin.ignore();
+            std::cout << "\nTeam name: ";
+            std::getline(std::cin, teamName);
+            lib.displayDriversByTeam(teamName);
+            waitForEnter();
+            break;
+
+        }
+            case 6:
+            clearScreen();
+            lib.sortDriversByWins();
+            lib.displayAllDrivers();
+            waitForEnter();
+            break;
+            
+            case 7:
+            clearScreen();
+            lib.displayAllTeams();
+            waitForEnter();
+            break;
+            
+            case 8:
+            handleAddTeam();
+            break;
+
+            case 9:
+            handleRemoveTeam();
+            break;
+
+            case 10:
+            handleFindTeam();
+            break;
+
+            case 11:
+            clearScreen();
+            lib.sortTeamByWins();
+            lib.displayAllTeams();
+            waitForEnter();
+            break;
+
+            case 0:
+            clearScreen();
+            std::cout << "\nSaving data... \n";
+            try {
+                lib.saveToFiles();
+                std::cout << "Data saved successfully.\n";
+            }
+            catch (const std::runtime_error& e){
+                std::cout << "Error saving: " << e.what() << "\n";
+            }
+            std::cout << "Goodbye.\n\n";
+            break;
+            
+            default:
+            std::cout << "\nInvalid option. Try again.\n";
+            waitForEnter();
+            break;
+    }
+
+        } while (option != 0);       
+}

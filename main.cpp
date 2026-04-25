@@ -2,6 +2,7 @@
 #include "Driver.h"
 #include "Library.h"
 #include "Team.h"
+#include "Menu.h"
 
 // date of data: 2026-04-06
 int main() {
@@ -70,6 +71,9 @@ int main() {
     } catch (const std::runtime_error& e) {
         std::cout << "Error saving: " << e.what() << "\n";
     }
+
+    Menu menu(lib);
+    menu.run();
 
     return 0;
 }
