@@ -5,33 +5,35 @@
 #include <stdexcept>
 #include <iomanip>
 
-Library::Library(std::string driversFile, std::string teamsFile) : driverFiles(driversFile), teamsFile(teamsFile){}
+Library::Library(std::string driversFile, std::string teamsFile) : driversFile(driversFile), teamsFile(teamsFile){}
 
 void Library::loadFromFiles(){
     std::ifstream dFile(driversFile);
     if (!dFile.is_open())
-        throw std::runtime_error("Cant open: " + driverFile);
+        throw std::runtime_error("Cant open: " + driversFile);
 
     std::string line;
-    while (std::getline(dFile, line))
-        if(!line.empty())
+        while (std::getline(dFile, line)){
+            if(!line.empty())
             drivers.push_back(Driver::fromCSV(line));
+        }
         dFile.close();
 
         std::ifstream tFile(teamsFile);
         if (!tFile.is_open())
-        throw std::runtime_error("Cant open: " + teamFile);
+        throw std::runtime_error("Cant open: " + teamsFile);
 
-        while (std::getline(tFile, line))
-            if (!line.empty())
-            teams.push_back(Team::fromCSV(line));
-        tFile.close();
+        while (std::getline(dFile, line)){
+            if(!line.empty())
+            drivers.push_back(Driver::fromCSV(line));
+        }
+        dFile.close();
 }
 
 void Library::saveToFiles() const {
     std::ofstream dFile(driversFile);
     if (!dFile.is_open())
-        throw std::runtime_error("Cant open: " + driverFile);
+        throw std::runtime_error("Cant open: " + driversFile);
 
     for (const auto& d : drivers)
         dFile << d.toCSV() << "\n";
@@ -39,10 +41,11 @@ void Library::saveToFiles() const {
 
     std::ofstream tFile(teamsFile);
     if (!tFile.is_open())
-    throw std::runtime_error("Cant open: " + teamFile);
+    throw std::runtime_error("Cant open: " + teamsFile);
 
-    for (const auto& t : teams)
-        tFile << t.CSV() << "\n";
+    for (const auto& t : teams){
+        tFile << t.toCSV() << "\n";
+    }
         tFile.close();
 
 }
@@ -61,10 +64,10 @@ void Library::removeDriver(const std::string& name) {
     auto it = std::find_if(drivers.begin(), drivers.end(), [&name](const Driver& d){ return d.getName() == name; });
     if(it == drivers.end()) {
         std::cout << "Driver" << name << "not found.\n";
-        return
+        return;
     }
     drivers.erase(it);
-    std::cout << "Driver" << name "removed\n";
+    std::cout << "Driver " << name << " removed.\n";
 }
 
 Driver* Library::findDriver(const std::string& name) {
@@ -84,9 +87,9 @@ void Library::displayAllDrivers()const {
     std::cout << d << "\n";
 }
 
-void Library::addTeam(consst Team& team) {
+void Library::addTeam(const Team& team) {
     if (findTeam(team.getName()) != nullptr) {
-        std::cout << "Team " << team..getName() << "already exists\n";
+        std::cout << "Team " << team.getName() << "already exists\n";
         return;
     }
     teams.push_back(team);
@@ -105,10 +108,11 @@ void Library::removeTeam(const std::string& name) {
 }
 
 Team* Library::findTeam(const std::string& name) {
-    for(auto& t : teams)
-        if (t.getName() == name)
-            return &t;
-        return nullptr;
+    for (auto& t : teams){
+        if(t.getName() == name)
+        return &t; 
+    }
+    return nullptr;
 }
 
 void Library::displayAllTeams() const {
@@ -117,20 +121,21 @@ void Library::displayAllTeams() const {
         return;
     }
     std::cout <<"\n\n=== ALL TEAMS ===\n\n";
-        for (const auto& << t << "\n");
+        for (const auto& t : teams)
+        std::cout << t << "\n";
 }
 
-void Library::displayDriverByTeam(const std::string& teamName) const{
+void Library::displayDriversByTeam(const std::string& teamName) const{
     std::cout << "\n\n=== DRIVER TEAMS" << teamName << "===\n\n";
     bool found = false;
     for (const auto& d : drivers) {
-        if (d.getTeamName() == teamName) {
-            std::cout << d << "\n":
+        if (d.getTeam() == teamName) {
+            std::cout << d << "\n";
             found = true;
         }
     }
     if (!found)
-    std::cout << "No driver in team" << team << "\n";
+    std::cout << "No driver in team" << teamName << "\n";
 }
 
 void Library::sortDriversByWins(){
@@ -138,7 +143,7 @@ void Library::sortDriversByWins(){
     std::cout << "Driver sorted by wins\n";
 }
 
-void Librar::sortTeamByWins(){
+void Library::sortTeamsByWins(){
     std::sort(teams.begin(), teams.end());
     std::cout << "Teams sorted by wins\n";
 }

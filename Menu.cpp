@@ -62,7 +62,7 @@ void Menu::handleAddDriver(){
     std::cout << "Team name    : "; std::getline(std::cin, teamName);
 
     lib.addDriver(Driver(name, number, nationality, championships, wins, teamName));
-    waitForEnter;
+    waitForEnter();
 
 }
 
@@ -79,46 +79,46 @@ void Menu::handleRemoveDriver(){
     waitForEnter();
 }
 
+
 void Menu::handleFindDriver(){
     clearScreen();
     std::cout << "\n=== FIND DRIVER ===\n\n";
-
     std::string name;
     std::cin.ignore();
-    std::cout << "Driver name: ";
-    std::getline(std::cin, name);
-
-    lib.removeDriver(name);
-    waitForEnter();
-}
-
-void Menu::handleFindDriver(){
-    clearScreen();
-    std::cout <<"\n=== FIND DRIVER ===\n\n";
-    std::string name;
-    std::cin.ignore();
-    std::cout << "Driver name: ";
+    std::cout <<"Driver name: ";
     std::getline(std::cin, name);
 
     Driver* d = lib.findDriver(name);
-    if (d != nullptr)
-        d->display();
-    else
-        std::cout << "Driver " << name << " not found\n";
+    if(d != nullptr)
+    d -> display();
+        else{}
+         std::cout << "Driver" << name << "not found\n";
 
-        waitForEnter();
+         waitForEnter();
+         
 }
 
 void Menu::handleAddTeam(){
     clearScreen();
     std::cout <<"\n=== ADD TEAM ===\n\n";
 
-    std::string name;
-    std::cin.ignore();
-    std::cout << "Team name: ";
-    std::getline(std::cin, name);
+    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 
-    lib.removeTeam(name);
+    std::string name, country;
+    int wcc = 0;
+    int totalWins = 0;
+
+    std::cout << "Team name  : ";
+    std::getline(std::cin, name);
+    std::cout << "Country    : ";
+    std::getline(std::cin, country);
+    std::cout << "WCC titles : ";
+    std::cin >> wcc;
+    std::cout << "Total wins : ";
+    std::cin >> totalWins;
+    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+
+    lib.addTeam(Team(name, country, wcc, totalWins));
     waitForEnter();
 }
 
@@ -139,12 +139,30 @@ void Menu::handleFindTeam(){
     waitForEnter();
 }
 
+void Menu::handleRemoveTeam() {
+    clearScreen();
+    std::cout << "\n=== REMOVE TEAM ===\n\n";
+
+    std::string name;
+    std::cin.ignore();
+    std::cout << "Team name: ";
+    std::getline(std::cin, name);
+
+    lib.removeTeam(name);
+    waitForEnter();
+}
+
 void Menu::run(){
     int option;
 
     do{
         showMainMenu();
         std::cin >> option;
+        if (std::cin.fail()) {
+            std::cin.clear();
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+            option = -1;
+        }
 
         switch (option) {
             case 1:
@@ -199,7 +217,7 @@ void Menu::run(){
 
             case 11:
             clearScreen();
-            lib.sortTeamByWins();
+            lib.sortTeamsByWins();
             lib.displayAllTeams();
             waitForEnter();
             break;

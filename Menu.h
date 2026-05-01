@@ -5,7 +5,7 @@
 
 class Menu {
     private:
-    Library& lib:
+    Library& lib;
 
     void showMainMenu() const;
 
