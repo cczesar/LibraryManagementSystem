@@ -91,8 +91,9 @@ void Menu::handleFindDriver(){
     Driver* d = lib.findDriver(name);
     if(d != nullptr)
     d -> display();
-        else{}
-         std::cout << "Driver" << name << "not found\n";
+        else{        
+             std::cout << "Driver" << name << "not found\n";
+        }
 
          waitForEnter();
          
@@ -118,7 +119,7 @@ void Menu::handleAddTeam(){
     std::cin >> totalWins;
     std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 
-    lib.addTeam(Team(name, country, wcc, totalWins));
+    lib.addTeam(Team (name, country, wcc, totalWins));
     waitForEnter();
 }
 

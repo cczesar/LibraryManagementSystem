@@ -66,7 +66,6 @@ bool Driver::operator==(const Driver& other) const {
 }
 
 bool Driver::operator<(const Driver& other) const{
-    // sort by wins descending (more wins = "smaller" for std::sort)
     if (wins != other.wins) return wins > other.wins;
     return number < other.number;
 }

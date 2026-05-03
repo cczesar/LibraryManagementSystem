@@ -57,7 +57,7 @@ void Library::addDriver(const Driver& driver) {
 
     }
     drivers.push_back(driver);
-    std::cout << "Driver" << driver.getName() << "added.\n";
+    std::cout << "Driver " << driver.getName() << " added.\n";
 }
 
 void Library::removeDriver(const std::string& name) {
